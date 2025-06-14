@@ -2,6 +2,11 @@
 
 const myLibrary = [];
 
+document.addEventListener('DOMContentLoaded', function () {
+    // load cards at page load if any existing data
+    displayCards(); 
+});
+
 // Constructor function for books
 function Book(title,author,id,read,pages) {
     this.title = title;
@@ -71,10 +76,13 @@ myLibrary.forEach(element => {
 //      { title: 'Card 3', content: 'This is the content of card 3.' },
 //    ];
 
+function displayCards() {
+    cardContainer.innerHTML="";
     myLibrary.forEach(element => {
      const card = createCard(element);
      cardContainer.appendChild(card);
    });
+}
 
 // Add Book functionality
 const addBookDialog = document.getElementById("add-book-dialog");
@@ -97,12 +105,25 @@ addBookModal.addEventListener('click',function(event){
         // console.log('Button with value "value1" was clicked!');
             const form = addBookModal.querySelector('form');
             if (formFieldsAreFilled(form)){
-
+                // title,author,id,read,pages
+                // const form = addBookModal.querySelector('form');
+                const title = document.getElementById('title').value;
+                const author = document.getElementById('author').value;
+                const id = createID();
+                const read = document.getElementById('read').checked;
+                const pages = document.getElementById('pages');
+                addBookToLibrary(title,author,id,read,pages);
+                const data = {title,author,id,read,pages};
+                createCard(data);
+                displayCards();
             }
+
+                event.preventDefault(); // Stop default form submission if you're handling it manually
+
 
         } else if (buttonValue === 'cancel') {
         // console.log('Button with value "value2" was clicked!');
-
+            addBookModal.close();
         }
     }
 })

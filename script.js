@@ -3,16 +3,17 @@
 const myLibrary = [];
 
 // Constructor function for books
-function Book(title,author,id,read) {
+function Book(title,author,id,read,pages) {
     this.title = title;
     this.author = author;
     this.id = id;
     this.read = read;
+    this.pages = pages;
 }
 
 // Function to add new books to library
-function addBookToLibrary(title,author,id,read) {
-    let book = new Book(title,author,id,read);
+function addBookToLibrary(title,author,id,read,pages) {
+    let book = new Book(title,author,id,read,pages);
     myLibrary.push(book);
 }
 
@@ -22,8 +23,8 @@ function createID() {
 }
 
 // Add some books
-addBookToLibrary('Hamlet','William Shakespeare',createID(),true);
-addBookToLibrary('On The Road','Jack Kerouac',createID(),true);
+addBookToLibrary('Hamlet','William Shakespeare',createID(),true,'250');
+addBookToLibrary('On The Road','Jack Kerouac',createID(),true,'180');
 
 
 // test: log books
@@ -53,8 +54,13 @@ myLibrary.forEach(element => {
     card.appendChild(read);
 
     const label = document.createElement('label');
-    label.htmlFor = 'read-checkbox';
-    label.textContent = 'Read?';
+    label.htmlFor = '#read-checkbox';
+    label.textContent = 'Read: ';
+
+    const pages = document.createElement('p');
+    pages.textContent = "Pages: " + data.pages;
+    card.appendChild(pages);
+
 
     return card;
    }
@@ -74,8 +80,39 @@ myLibrary.forEach(element => {
 const addBookDialog = document.getElementById("add-book-dialog");
 
 const addBookBtn = document.getElementById('add-book-btn');
+
 addBookBtn.addEventListener('click', ()=> {
     addBookDialog.showModal();
 }
 )
 
+// const submitBtn = document.getElementById('addBook-Submit');
+const addBookModal = document.getElementById('add-book-dialog');
+
+addBookModal.addEventListener('click',function(event){
+    if (event.target.tagName === 'BUTTON') {
+        const buttonValue = event.target.value;
+
+        if (buttonValue === 'submit') {
+        // console.log('Button with value "value1" was clicked!');
+            const form = addBookModal.querySelector('form');
+            if (formFieldsAreFilled(form)){
+
+            }
+
+        } else if (buttonValue === 'cancel') {
+        // console.log('Button with value "value2" was clicked!');
+
+        }
+    }
+})
+
+function formFieldsAreFilled(form) {
+  for (let i = 0; i < form.elements.length; i++) {
+    let element = form.elements[i];
+    if (element.value && element.value.trim() === "") {
+      return false; // Found an empty element
+    }
+  }
+  return true; // All elements are not empty
+}

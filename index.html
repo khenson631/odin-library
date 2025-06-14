@@ -1,1 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="card-container">
+    </div>
 
+    <button id="add-book-btn">Add Book</button>
+
+    <dialog id="add-book-dialog">
+        <form method="dialog">
+            <label>
+                Title: 
+                <input type="text" name="title" id="title">
+            </label>
+            <label>
+                Author: 
+                <input type="text" name="author" id="author">
+            </label>
+            <label>
+                Already read?
+                <input type="checkbox" name="read" id="read">
+            </label>
+            <button value="submit">Submit</button>
+            <button value="cancel">Cancel</button>
+        </form>
+    </dialog>
+
+    <script src="script.js"></script>
+</body>
+</html>

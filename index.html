@@ -7,13 +7,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="header">
+        <h1>MyLibrary</h1>
+    </div>
+    
     <div id="card-container">
     </div>
 
     <button id="add-book-btn">Add Book</button>
 
     <dialog id="add-book-dialog">
-        <form method="dialog">
+        <form method="dialog" id="add-book-form">
             <label>
                 Title: 
                 <input type="text" name="title" id="title" required>
@@ -28,7 +32,7 @@
             </label>
             <label>
                 Pages: 
-                <input type="number" name="pages" id="pages" required value="0">
+                <input type="number" name="pages" id="pages" required value="0" min="0">
             </label>
             <button value="submit" id="addBook-submit">Submit</button>
             <button value="cancel" id="addBook-cancel">Cancel</button>

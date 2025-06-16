@@ -13,7 +13,7 @@ function Book(title,author,id,read,pages) {
     this.author = author;
     this.id = id;
     this.read = read;
-    this.pages = pages;
+    this.pages = pages.toString();
 }
 
 // Function to add new books to library
@@ -28,8 +28,8 @@ function createID() {
 }
 
 // Add some books
-addBookToLibrary('Hamlet','William Shakespeare',createID(),true,'250');
-addBookToLibrary('On The Road','Jack Kerouac',createID(),true,'180');
+// addBookToLibrary('Hamlet','William Shakespeare',createID(),true,'250');
+// addBookToLibrary('On The Road','Jack Kerouac',createID(),false,'180');
 
 
 // test: log books
@@ -52,29 +52,33 @@ myLibrary.forEach(element => {
      author.textContent = data.author;
      card.appendChild(author);
     
+    const readLabel = document.createElement('label');
+    readLabel.htmlFor = 'read-checkbox';
+    readLabel.textContent = 'Read: ';
+    card.appendChild(readLabel); 
+
     const read = document.createElement('input')
     read.type = 'checkbox';
     read.checked = data.read;
-    read.id = 'read-checkbox';
+    // read.id = 'read-checkbox';
+    read.classList.add('read-checkbox');
     card.appendChild(read);
 
-    const label = document.createElement('label');
-    label.htmlFor = '#read-checkbox';
-    label.textContent = 'Read: ';
-
     const pages = document.createElement('p');
-    pages.textContent = "Pages: " + data.pages;
+    pages.textContent = 'Pages: ' + data.pages;
     card.appendChild(pages);
+    
+    // associate card with id for deletion
+    card.setAttribute('data-id',data.id); 
 
+    // delete button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.classList.add('delete-btn');
+    card.appendChild(deleteBtn);
 
     return card;
    }
-
-//    const cardData = [
-//      { title: 'Card 1', content: 'This is the content of card 1.' },
-//      { title: 'Card 2', content: 'This is the content of card 2.' },
-//      { title: 'Card 3', content: 'This is the content of card 3.' },
-//    ];
 
 function displayCards() {
     cardContainer.innerHTML="";
@@ -85,17 +89,14 @@ function displayCards() {
 }
 
 // Add Book functionality
-const addBookDialog = document.getElementById("add-book-dialog");
-
+const addBookModal = document.getElementById('add-book-dialog');
 const addBookBtn = document.getElementById('add-book-btn');
+const addBookForm = document.getElementById('add-book-form');
 
 addBookBtn.addEventListener('click', ()=> {
-    addBookDialog.showModal();
+    addBookModal.showModal();
 }
 )
-
-// const submitBtn = document.getElementById('addBook-Submit');
-const addBookModal = document.getElementById('add-book-dialog');
 
 addBookModal.addEventListener('click',function(event){
     if (event.target.tagName === 'BUTTON') {
@@ -105,35 +106,68 @@ addBookModal.addEventListener('click',function(event){
         // console.log('Button with value "value1" was clicked!');
             const form = addBookModal.querySelector('form');
             if (formFieldsAreFilled(form)){
+                
+                event.preventDefault(); 
+                
                 // title,author,id,read,pages
                 // const form = addBookModal.querySelector('form');
                 const title = document.getElementById('title').value;
                 const author = document.getElementById('author').value;
                 const id = createID();
                 const read = document.getElementById('read').checked;
-                const pages = document.getElementById('pages');
+                const pages = document.getElementById('pages').value;
                 addBookToLibrary(title,author,id,read,pages);
                 const data = {title,author,id,read,pages};
-                createCard(data);
                 displayCards();
+                addBookModal.close();
+                addBookForm.reset();
             }
-
-                event.preventDefault(); // Stop default form submission if you're handling it manually
-
 
         } else if (buttonValue === 'cancel') {
         // console.log('Button with value "value2" was clicked!');
             addBookModal.close();
+            addBookForm.reset();
         }
     }
 })
 
+// Delete book from libray
+cardContainer.addEventListener('click', function(event) {
+    if (event.target.classList.contains('delete-btn')) {
+        const card = event.target.closest('.card');
+        const id = card.getAttribute('data-id');
+        deleteBook(id);
+        displayCards(); // Re-render cards after deletion
+    }
+
+    if (event.target.classList.contains('read-checkbox')) {
+        const card = event.target.closest('.card');
+        const id = card.getAttribute('data-id');
+        const book = myLibrary.find(b => b.id === id);
+        if (book) {
+            book.updateReadStatus();
+            console.log(`Book "${book.title}" read status is now: ${book.read}`);
+        }
+    }
+});
+
+
+// Helper functions
 function formFieldsAreFilled(form) {
   for (let i = 0; i < form.elements.length; i++) {
     let element = form.elements[i];
-    if (element.value && element.value.trim() === "") {
+    if (element.value.trim() === "") {
       return false; // Found an empty element
     }
   }
   return true; // All elements are not empty
+}
+
+function deleteBook(id){
+    // find element in myLibrary based on id and delete
+    myLibrary.splice(myLibrary.findIndex(item => item.id === id), 1)
+}
+
+Book.prototype.updateReadStatus = function() {
+    this.read = !this.read;
 }

@@ -8,7 +8,10 @@
 </head>
 <body>
     <div id="header">
-        <h1>MyLibrary</h1>
+        <div id="header-and-logo-container">
+            <img src="assets/book-closed-svgrepo-com.svg" alt="logo" id="logo">
+            <h1>MyLibrary</h1>
+        </div>
         <button id="add-book-btn">Add Book</button>
     </div>
     
@@ -18,6 +21,7 @@
 
     <dialog id="add-book-dialog">
         <form method="dialog" id="add-book-form">
+            <h2>New Book</h2>
             <label>
                 Title: 
                 <input type="text" name="title" id="title" required>
@@ -26,16 +30,18 @@
                 Author: 
                 <input type="text" name="author" id="author" required>
             </label>
-            <label>
+            <label id="already-read">
                 Already read?
                 <input type="checkbox" name="read" id="read">
             </label>
             <label>
                 Pages: 
-                <input type="number" name="pages" id="pages" required value="0" min="0">
+                <input type="number" name="pages" id="pages" required min="0">
             </label>
-            <button value="submit" id="addBook-submit">Submit</button>
-            <button value="cancel" id="addBook-cancel">Cancel</button>
+            <div id="submit-cancel-btn-container">
+                <button value="submit" id="addBook-submit">Submit</button>
+                <button value="cancel" id="addBook-cancel">Cancel</button>
+            </div>
         </form>
     </dialog>
 

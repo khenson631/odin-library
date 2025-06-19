@@ -56,6 +56,7 @@ myLibrary.forEach(element => {
     readLabel.htmlFor = 'read-checkbox';
     readLabel.textContent = 'Read: ';
     card.appendChild(readLabel); 
+    readLabel.classList.add('read-checkbox'); 
 
     const read = document.createElement('input')
     read.type = 'checkbox';

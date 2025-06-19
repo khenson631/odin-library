@@ -61,7 +61,7 @@
 }
 
 .card-content {
-    padding: 15px;
+    padding: 100px;
 }
 
 .card-title {
@@ -76,6 +76,26 @@
 #read-checkbox[disabled] {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.read-checkbox {
+    display: inline-flex;
+    /* justify-content: space-between; */
+    flex-direction: row;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+}
+
+.card p {
+    display: flex;
+    padding-bottom: 10px;
+}
+
+.delete-btn {
+    background-color: red;
+    color: var(--yellow);
+    font-weight: bold;
 }
 
 #add-book-dialog {

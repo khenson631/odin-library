@@ -7,15 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
     displayCards(); 
 });
 
-// Constructor function for books
-// function Book(title,author,id,read,pages) {
-//     this.title = title;
-//     this.author = author;
-//     this.id = id;
-//     this.read = read;
-//     this.pages = pages.toString();
-// }
-
 // kh 07-01-2025: Refactor to use class instead of plain constructors
 class Book {
     
@@ -33,22 +24,13 @@ class Book {
 
     deleteBook(id){
         // find element in myLibrary based on id and delete
-        // myLibrary.splice(myLibrary.findIndex(item => item.id === id), 1)
         myLibrary.splice(myLibrary.findIndex(item => item.id === this.id), 1)
     }
 
-    // Book.prototype.updateReadStatus = function() {
     updateReadStatus() {
         this.read = !this.read;
     }
 }
-
-// // kh 07-01-2025: Commenting block: Refactor to use class instead of plain constructors
-// Function to add new books to library 
-// function addBookToLibrary(title,author,id,read,pages) {
-//     let book = new Book(title,author,id,read,pages);
-//     myLibrary.push(book);
-// }
 
 // function to create unique ID per book
 function createID() {
@@ -84,7 +66,6 @@ myLibrary.forEach(element => {
     const read = document.createElement('input')
     read.type = 'checkbox';
     read.checked = data.read;
-    // read.id = 'read-checkbox';
     read.classList.add('read-checkbox');
     card.appendChild(read);
 
@@ -119,8 +100,7 @@ const addBookForm = document.getElementById('add-book-form');
 
 addBookBtn.addEventListener('click', ()=> {
     addBookModal.showModal();
-}
-)
+})
 
 addBookModal.addEventListener('click',function(event){
     if (event.target.tagName === 'BUTTON') {
@@ -133,14 +113,12 @@ addBookModal.addEventListener('click',function(event){
                 
                 event.preventDefault(); 
                 
-                // title,author,id,read,pages
-                // const form = addBookModal.querySelector('form');
                 const title = document.getElementById('title').value;
                 const author = document.getElementById('author').value;
                 const id = createID();
                 const read = document.getElementById('read').checked;
                 const pages = document.getElementById('pages').value;
-                // addBookToLibrary(title,author,id,read,pages); // kh 07-01-2025: Refactor to use class instead of plain constructors
+                // kh 07-01-2025: Refactor to use class instead of plain constructors
                 let book = new Book(title,author,id,read,pages);
                 book.addBookToLibrary();
                 const data = {title,author,id,read,pages};
@@ -150,7 +128,6 @@ addBookModal.addEventListener('click',function(event){
             }
 
         } else if (buttonValue === 'cancel') {
-        // console.log('Button with value "value2" was clicked!');
             addBookModal.close();
             addBookForm.reset();
         }
@@ -163,7 +140,6 @@ cardContainer.addEventListener('click', function(event) {
         const card = event.target.closest('.card');
         const id = card.getAttribute('data-id');
         const book = myLibrary.find(b => b.id === id);
-        // deleteBook(id);
         book.deleteBook();
         displayCards(); // Re-render cards after deletion
     }
@@ -179,7 +155,6 @@ cardContainer.addEventListener('click', function(event) {
     }
 });
 
-
 // Helper functions
 function formFieldsAreFilled(form) {
   for (let i = 0; i < form.elements.length; i++) {
@@ -190,13 +165,3 @@ function formFieldsAreFilled(form) {
   }
   return true; // All elements are not empty
 }
-
-// 'kh 07/01/25 refactor to use classes'
-// function deleteBook(id){
-//     // find element in myLibrary based on id and delete
-//     myLibrary.splice(myLibrary.findIndex(item => item.id === id), 1)
-// }
-
-// Book.prototype.updateReadStatus = function() {
-//     this.read = !this.read;
-// }
